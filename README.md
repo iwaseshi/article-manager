@@ -1,2 +1,3 @@
-# articles-manager
+# article-manager
+
 WIP
