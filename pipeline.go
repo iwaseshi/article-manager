@@ -10,7 +10,7 @@ import (
 )
 
 var (
-// artclesPath = "../artcles"
+	mountedDir = "article-manager"
 )
 
 func main() {
@@ -29,15 +29,11 @@ func main() {
 	}
 	defer client.Close()
 
-	_ = client.Host().Directory(".")
 	container := client.Container().From("golang:1.20")
+	container = container.
+		WithMountedDirectory(mountedDir, client.Host().Directory(".")).
+		WithWorkdir(mountedDir)
 
-	// カレントディレクトリをコンテナにマウントする
-	// container = container.
-	// 	WithMountedDirectory("/artcles", artcles).
-	// 	WithWorkdir("/artcles")
-
-	// 実行するコマンドを設定する
 	//container = container.WithExec([]string{"go", "run", "main.go"})
 
 	if _, err := container.ExitCode(ctx); err != nil {
